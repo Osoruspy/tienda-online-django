@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Mi Perfil - Tienda Online{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Mi Perfil</h3>
+            </div>
+            
+            <div class="card-body">
+                <p><strong>Usuario:</strong> {{ usuario.username }}</p>
+                <p><strong>Nombre:</strong> {{ usuario.first_name }} {{ usuario.last_name }}</p>
+                <p><strong>Email:</strong> {{ usuario.email }}</p>
+                <p><strong>Rol:</strong> {{ usuario.get_rol_display }}</p>
+                <p><strong>Teléfono:</strong> {{ usuario.telefono|default:"No especificado" }}</p>
+                <p><strong>Dirección:</strong> {{ usuario.direccion|default:"No especificada" }}</p>
+                
+                <div class="d-grid gap-2 mt-4">
+                    <a href="{% url 'productos:lista' %}" class="btn btn-primary">
+                        Continuar Comprando
+                    </a>
+                    <form method="post" action="{% url 'usuarios:logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger w-100">
+                            <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

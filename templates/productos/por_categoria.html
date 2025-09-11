@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Productos - {{ categoria.nombre }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Sidebar de filtros -->
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Filtrar Productos</h5>
+            </div>
+            <div class="card-body">
+                <form method="get">
+                    {% bootstrap_form form %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-funnel"></i> Aplicar Filtros
+                        </button>
+                        <a href="{% url 'productos:por_categoria' categoria.slug %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-circle"></i> Limpiar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Volver a todas las categorías -->
+        <div class="card">
+            <div class="card-body">
+                <a href="{% url 'productos:lista' %}" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-arrow-left"></i> Todas las categorías
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de productos -->
+    <div class="col-md-9">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'productos:lista' %}">Productos</a></li>
+                <li class="breadcrumb-item active">{{ categoria.nombre }}</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Productos en {{ categoria.nombre }}</h1>
+            <span class="badge bg-primary">{{ productos.count }} productos</span>
+        </div>
+
+        {% if productos %}
+        <div class="row">
+            {% for producto in productos %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    {% if producto.imagen_principal %}
+                    <img src="{{ producto.imagen_principal.url }}" class="card-img-top" alt="{{ producto.nombre }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text text-muted">{{ producto.descripcion|truncatewords:15 }}</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">${{ producto.precio }}</span>
+                            <span class="badge {% if producto.disponible %}bg-success{% else %}bg-danger{% endif %}">
+                                {% if producto.disponible %}Disponible{% else %}Agotado{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <a href="{% url 'productos:detalle' producto.slug %}" class="btn btn-outline-primary w-100">
+                            Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-search" style="font-size: 3rem;"></i>
+            <h3>No hay productos en esta categoría</h3>
+            <a href="{% url 'productos:lista' %}" class="btn btn-primary">
+                Ver todos los productos
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Registro - Tienda Online{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Registro de Cliente</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="d-grid gap-2">
+                        {% bootstrap_button "Registrarse" button_type="submit" button_class="btn-primary" %}
+                    </div>
+                </form>
+                <hr>
+                <div class="text-center">
+                    <a href="{% url 'usuarios:login' %}" class="btn btn-outline-secondary">
+                        ¿Ya tienes cuenta? Inicia Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

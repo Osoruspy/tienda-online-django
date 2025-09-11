@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Cerrar Sesión - Tienda Online{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Sesión Cerrada</h3>
+            </div>
+            <div class="card-body text-center">
+                <p>Has cerrado sesión correctamente.</p>
+                <a href="{% url 'usuarios:login' %}" class="btn btn-primary">
+                    Iniciar Sesión nuevamente
+                </a>
+                <a href="{% url 'productos:lista' %}" class="btn btn-outline-secondary ms-2">
+                    Ver Productos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

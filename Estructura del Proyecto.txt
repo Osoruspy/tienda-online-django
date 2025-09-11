@@ -1,0 +1,9 @@
+Tienda_Virtual/
+├── Tienda/                 # Configuración del proyecto
+├── usuarios/              # App de autenticación
+├── productos/             # App de gestión de productos
+├── carrito/              # App de carrito de compras
+├── templates/            # Templates base
+├── static/              # Archivos estáticos
+├── media/               # Archivos multimedia
+└── manage.py
