@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Checkout - Paso 1: Dirección{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Paso 1: Información de Envío</h4>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-4">
+                        <div class="progress-bar" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Continuar al Paso 2 ➔
+                            </button>
+                            <a href="{% url 'carrito:detalle' %}" class="btn btn-outline-secondary">
+                                ← Volver al Carrito
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'carrito',
     'categorias',
     'tareas',
+    'confecciones', 
+    'cuentas',
 ]
 
 MIDDLEWARE = [
@@ -171,3 +173,10 @@ LOGIN_REDIRECT_URL = '/productos/'  # Redirigir a lista de productos después de
 LOGOUT_REDIRECT_URL = '/productos/'  # Redirigir a lista de productos después de logout
 
 LOGIN_URL = '/usuarios/login/'       # URL para login
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# Configuración de emails (para futuras notificaciones)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Para desarrollo

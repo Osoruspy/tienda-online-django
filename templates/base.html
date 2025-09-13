@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Tienda Online{% endblock %}</title>
+    <title>{% block title %}Tres Catorce Store{% endblock %}</title>
     {% load django_bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{% url 'productos:lista' %}">
-                <i class="bi bi-shop"></i> Tienda Online
+                <i class="bi bi-shop"></i> Tres Catorce Store
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -36,11 +36,6 @@
                             </a>
                         </li>
                         {% endif %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="alert('Carrito en desarrollo'); return false;">
-                                <i class="bi bi-cart"></i> Carrito
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="alert('Pedidos en desarrollo'); return false;">
                                 <i class="bi bi-bag"></i> Mis Pedidos
@@ -121,7 +116,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5>Tienda Online</h5>
+                    <h5>Tres Catorce Store</h5>
                     <p>Los mejores productos al mejor precio.</p>
                 </div>
                 <div class="col-md-4">
@@ -135,15 +130,15 @@
                 <div class="col-md-4">
                     <h5>Contacto</h5>
                     <ul class="list-unstyled">
-                        <li><i class="bi bi-envelope"></i> info@tiendaonline.com</li>
-                        <li><i class="bi bi-telephone"></i> +1 234 567 890</li>
-                        <li><i class="bi bi-geo-alt"></i> Ciudad, País</li>
+                        <li><i class="bi bi-envelope"></i> trescatorce@gmail.com</li>
+                        <li><i class="bi bi-telephone"></i> +595 981 514 584</li>
+                        <li><i class="bi bi-geo-alt"></i> Asunción, Paraguay</li>
                     </ul>
                 </div>
             </div>
             <hr class="bg-light">
             <div class="text-center">
-                <p>&copy; 2024 Tienda Online. Todos los derechos reservados.</p>
+                <p>&copy; 2025 Alfredo Osorio. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>

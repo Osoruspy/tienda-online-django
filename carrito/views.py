@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import JsonResponse
 from .models import Carrito, ItemCarrito
-from .utils import obtener_carrito, transferir_carrito_anonimo_a_usuario
+from .utils import obtener_carrito
 from .forms import AgregarAlCarritoForm, ActualizarCantidadForm
 from productos.models import Producto
 
@@ -84,6 +84,7 @@ def vaciar_carrito(request):
 @login_required
 def transferir_carrito_view(request):
     """Vista para transferir carrito de sesión a usuario"""
+    from .utils import transferir_carrito_anonimo_a_usuario
     transferir_carrito_anonimo_a_usuario(request, request.user)
     messages.success(request, 'Carrito transferido a tu cuenta.')
     return redirect('carrito:detalle')

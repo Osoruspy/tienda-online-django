@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Checkout - Paso 3: Confirmación{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Paso 3: Confirmación de Pedido</h4>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-4">
+                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    
+                    <!-- Resumen de la compra -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Resumen de su Compra</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6>Información de Envío:</h6>
+                            <p>
+                                <strong>{{ datos_envio.nombre_completo }}</strong><br>
+                                {{ datos_envio.direccion }}<br>
+                                {{ datos_envio.ciudad }} {{ datos_envio.codigo_postal }}<br>
+                                Tel: {{ datos_envio.telefono }}<br>
+                                Email: {{ datos_envio.email }}
+                            </p>
+                            
+                            <h6>Método de Pago:</h6>
+                            <p class="mb-0">
+                                {% if metodo_pago == 'efectivo' %}Efectivo
+                                {% elif metodo_pago == 'transferencia' %}Transferencia Bancaria
+                                {% elif metodo_pago == 'tarjeta_credito' %}Tarjeta de Crédito
+                                {% elif metodo_pago == 'tarjeta_debito' %}Tarjeta de Débito
+                                {% elif metodo_pago == 'mercado_pago' %}Mercado Pago
+                                {% else %}{{ metodo_pago }}{% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Formulario de pago para tarjetas -->
+                    {% if metodo_pago == 'tarjeta_credito' or metodo_pago == 'tarjeta_debito' %}
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Información de Tarjeta</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+                                
+                                <button type="submit" class="btn btn-success btn-lg w-100">
+                                    ✅ Confirmar y Pagar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% else %}
+                    <!-- Para otros métodos de pago -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="alert alert-info">
+                            <h6>Método de Pago: 
+                                {% if metodo_pago == 'efectivo' %}Efectivo{% endif %}
+                                {% if metodo_pago == 'transferencia' %}Transferencia Bancaria{% endif %}
+                                {% if metodo_pago == 'mercado_pago' %}Mercado Pago{% endif %}
+                            </h6>
+                            <p class="mb-0">Complete su pago según las instrucciones del método seleccionado.</p>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            ✅ Confirmar Pedido
+                        </button>
+                    </form>
+                    {% endif %}
+                    
+                    <div class="text-center mt-3">
+                        <a href="{% url 'pedidos:checkout' %}?paso=2" class="btn btn-outline-secondary">
+                            ← Volver al Paso 2
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

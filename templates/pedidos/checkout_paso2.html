@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Checkout - Paso 2: Pago{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">Paso 2: Método de Pago</h4>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-4">
+                        <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <h5>Seleccione su método de pago:</h5>
+                            {% for choice in form.metodo_pago %}
+                            <div class="form-check mb-2">
+                                {{ choice.tag }}
+                                <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                    <strong>{{ choice.choice_label }}</strong>
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="form-check mb-4">
+                            {{ form.aceptar_terminos }}
+                            <label class="form-check-label" for="{{ form.aceptar_terminos.id_for_label }}">
+                                Acepto los <a href="#" onclick="alert('Términos y condiciones de la tienda'); return false;">términos y condiciones</a>
+                            </label>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-info btn-lg text-white">
+                                Continuar al Paso 3 ➔
+                            </button>
+                            <a href="{% url 'pedidos:checkout' %}?paso=1" class="btn btn-outline-secondary">
+                                ← Volver al Paso 1
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

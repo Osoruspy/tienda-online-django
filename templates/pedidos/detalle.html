@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Pedido #{{ pedido.id }} - Tienda Online{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'pedidos:lista' %}">Mis Pedidos</a></li>
+            <li class="breadcrumb-item active">Pedido #{{ pedido.id }}</li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Pedido #{{ pedido.id }}</h2>
+            <p class="mb-0">Fecha: {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Información del Pedido</h4>
+                    <p><strong>Estado:</strong> 
+                        <span class="badge 
+                            {% if pedido.estado == 'completado' %}bg-success
+                            {% elif pedido.estado == 'pendiente' %}bg-warning
+                            {% elif pedido.estado == 'cancelado' %}bg-danger
+                            {% else %}bg-info{% endif %}">
+                            {{ pedido.get_estado_display }}
+                        </span>
+                    </p>
+                    <p><strong>Método de Pago:</strong> {{ pedido.get_metodo_pago_display }}</p>
+                    <p><strong>Total:</strong> ${{ pedido.total }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Información de Envío</h4>
+                    <p>
+                        <strong>{{ pedido.nombre_completo }}</strong><br>
+                        {{ pedido.direccion }}<br>
+                        {{ pedido.ciudad }} {{ pedido.codigo_postal }}<br>
+                        Tel: {{ pedido.telefono }}<br>
+                        Email: {{ pedido.email }}
+                    </p>
+                </div>
+            </div>
+
+            <hr>
+
+            <h4>Productos</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in pedido.items.all %}
+                        <tr>
+                            <td>
+                                {% if item.producto %}
+                                    {{ item.producto.nombre }}
+                                {% else %}
+                                    {{ item.descripcion_personalizada|default:"Producto personalizado" }}
+                                {% endif %}
+                            </td>
+                            <td>{{ item.cantidad }}</td>
+                            <td>${{ item.precio_unitario }}</td>
+                            <td>${{ item.subtotal }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="row justify-content-end">
+                    <div class="col-md-6">
+                        <table class="table">
+                            <tr>
+                                <th>Subtotal:</th>
+                                <td class="text-end">${{ pedido.subtotal }}</td>
+                            </tr>
+                            <tr>
+                                <th>Impuestos (21%):</th>
+                                <td class="text-end">${{ pedido.impuestos }}</td>
+                            </tr>
+                            <tr>
+                                <th>Costo de Envío:</th>
+                                <td class="text-end">${{ pedido.costo_envio }}</td>
+                            </tr>
+                            {% if pedido.descuento > 0 %}
+                            <tr>
+                                <th>Descuento:</th>
+                                <td class="text-end">-${{ pedido.descuento }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="table-active">
+                                <th>Total:</th>
+                                <th class="text-end">${{ pedido.total }}</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end">
+                <a href="{% url 'pedidos:lista' %}" class="btn btn-outline-secondary">
+                    ← Volver a Mis Pedidos
+                </a>
+                {% if pedido.estado == 'pendiente' %}
+                <a href="{% url 'pedidos:cancelar' pedido.id %}" class="btn btn-outline-danger ms-2">
+                    Cancelar Pedido
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

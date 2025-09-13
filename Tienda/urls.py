@@ -5,18 +5,18 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
+    # Redirigir la raíz a productos
     path('', RedirectView.as_view(url='/productos/', permanent=False), name='home'),
+    
+    # Admin
     path('admin/', admin.site.urls),
     
-    # URLs con namespace correcto (solo las que están configuradas)
-    path('usuarios/', include('usuarios.urls', namespace='usuarios')),
+    # Incluir las URLs de las apps
     path('productos/', include('productos.urls', namespace='productos')),
-    
-    # Comentar temporalmente las apps que no están completamente configuradas
-    # path('pedidos/', include('pedidos.urls', namespace='pedidos')),
+    path('usuarios/', include('usuarios.urls', namespace='usuarios')),
     path('carrito/', include('carrito.urls', namespace='carrito')),
-    # path('categorias/', include('categorias.urls', namespace='categorias')),
-    # path('tareas/', include('tareas.urls', namespace='tareas')),
+    path('pedidos/', include('pedidos.urls', namespace='pedidos')),
+    path('confecciones/', include('confecciones.urls', namespace='confecciones')),
 ]
 
 if settings.DEBUG:
